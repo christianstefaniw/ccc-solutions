@@ -1,23 +1,26 @@
 num_people = int(input())
 people = [list(map(int, input().split())) for _ in range(num_people)]
 
+# people = [[6,8,3], [1,4,1], [14, 5, 2]]
 
 def main():
     max_speaker_pos = 10 ** 9
     min_speaker_pos = 0
+    speaker_pos = 0
 
-    while max_speaker_pos > min_speaker_pos + 1:
-        mid = (max_speaker_pos + min_speaker_pos) // 2
+    while True:
+        speaker_pos = (max_speaker_pos + min_speaker_pos) // 2
 
-        time_one = calc_time_for_all_people_to_hear_music(mid)
-        time_two = calc_time_for_all_people_to_hear_music(mid + 1)
+        curr_time = calc_time_for_all_people_to_hear_music(speaker_pos)
 
-        if (time_one > time_two): 
-            min_speaker_pos = mid
+        if (curr_time > calc_time_for_all_people_to_hear_music(speaker_pos + 1)): 
+            min_speaker_pos = speaker_pos
+        elif (curr_time > calc_time_for_all_people_to_hear_music(speaker_pos - 1)):
+            max_speaker_pos = speaker_pos
         else:
-            max_speaker_pos = mid
+            break
 
-    print(min(calc_time_for_all_people_to_hear_music(min_speaker_pos), calc_time_for_all_people_to_hear_music(max_speaker_pos)))
+    print(calc_time_for_all_people_to_hear_music(speaker_pos))
 
 
 def calc_time_for_all_people_to_hear_music(speaker_pos):
