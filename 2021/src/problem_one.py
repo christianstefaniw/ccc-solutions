@@ -3,13 +3,11 @@ from reprlib import aRepr
 
 def main():
     N = int(input())
-    h_raw = input()
-    w_raw = input()
+    heights = list(map(int, input().split()))
+    widths = list(map(int, input().split()))
+
     area = 0
-
-    heights = h_raw.split()
-    widths = w_raw.split()
-
+    
     for i in range(N):
         if (i == len(widths)):
             break
