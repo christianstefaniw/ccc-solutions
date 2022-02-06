@@ -1,6 +1,3 @@
-from reprlib import aRepr
-
-
 def main():
     N = int(input())
     heights = list(map(int, input().split()))
