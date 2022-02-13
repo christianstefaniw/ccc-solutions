@@ -1,11 +1,12 @@
 from collections import defaultdict
 
+
 def main():
     needle = input()
     haystack = input()
 
     freqs = init_freqs(needle)
-    
+
     eval(needle, haystack, freqs)
 
 
@@ -20,36 +21,39 @@ def init_freqs(needle):
 
     return hashmap
 
-def eval(needle, haystack, needle_freqs):
-    needle_len, haystack_len = len(needle), len(haystack)
 
-    start = 0
-    end = start + needle_len
+def eval(needle, haystack, needle_freqs):
+    needle_len, haystack_len = len(needle)-1, len(haystack)
+
     perms = 0
     prev_perms = {}
+    prev_chars_freqs = defaultdict(default_freq_value)
 
-    while end <= haystack_len:
-        section = haystack[start:end]
-        freqs = defaultdict(default_freq_value)
-        num_matches = 0
+    for i in range(haystack_len):
+        perm_found = True
+        prev_chars_freqs[haystack[i]] += 1
 
-        if section not in prev_perms:
-            for i in range(len(section)):
-                freqs[section[i]] += 1
-                if section[i] in needle_freqs and freqs[section[i]] == needle_freqs[section[i]]:
-                    num_matches += 1
+        if not i >= needle_len:
+            continue
 
-            if num_matches == len(needle_freqs):
-                perms += 1
-                prev_perms[section] = True
+        for key in needle_freqs:
+            if needle_freqs[key] == prev_chars_freqs[key]:
+                continue
+            perm_found = False
+        
+        section = haystack[i-needle_len:i+1]
+        if perm_found and section not in prev_perms:
+            prev_perms[section] = True
+            perms += 1
 
-        end += 1
-        start += 1
+        if prev_chars_freqs[haystack[i-needle_len]] > 0:
+            prev_chars_freqs[haystack[i-needle_len]] -= 1
 
     print(perms)
 
+
 def default_freq_value():
     return 0
-    
+
 
 main()
