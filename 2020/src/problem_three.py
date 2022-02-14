@@ -2,8 +2,10 @@ from collections import defaultdict
 
 
 def main():
-    needle = input()
-    haystack = input()
+    f = open("s3.4-31.in")
+    parsed = f.read().splitlines()
+    needle = parsed[0]
+    haystack = parsed[1]
 
     freqs = init_freqs(needle)
 
